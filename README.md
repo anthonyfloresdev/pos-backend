@@ -321,7 +321,7 @@ Este proyecto está bajo la licencia MIT. Ver [LICENSE](LICENSE) para más detal
 ## 👨‍💻 Autor
 
 **Anthony Flores Boza**
-- GitHub: [@Anthony3064](https://github.com/Anthony3064)
+- GitHub: [@anthonyfloresdev](https://github.com/anthonyfloresdev)
 - LinkedIn: [Anthony Flores Boza](www.linkedin.com/in/anthony-flores-boza-1b0533212)
 - Email: contacto@anthonyflores.dev
 
