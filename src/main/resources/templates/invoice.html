@@ -116,7 +116,7 @@
 
     <div class="invoice-info">
         <p><strong>ID Factura:</strong> <span th:text="${invoice.id}">#9999999999</span></p>
-        <p><strong>Fecha:</strong> <span th:text="${invoice.date}">YYYY-MM-DD</span></p>
+        <p><strong>Fecha:</strong> <span th:text="${invoice.getDateFormatted()}">YYYY-MM-DD</span></p>
         <p><strong>Medio de pago:</strong> <span th:text="${invoice.paymentMethod.description}">Método de pago</span></p>
     </div>
 

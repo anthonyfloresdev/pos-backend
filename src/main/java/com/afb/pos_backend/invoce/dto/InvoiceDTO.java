@@ -14,6 +14,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,4 +47,12 @@ public class InvoiceDTO {
 
     @NotNull(message = "El método de pago es requerido")
     private PaymentMethodDTO paymentMethod;
+
+    // Date formatted dd-MM-yyyy
+    public String getDateFormatted() {
+        if (date == null) return null;
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return date.format(format);
+    }
+
 }
