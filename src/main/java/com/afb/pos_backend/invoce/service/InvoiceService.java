@@ -3,6 +3,7 @@ package com.afb.pos_backend.invoce.service;
 import com.afb.pos_backend.invoce.dto.InvoiceDTO;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface InvoiceService {
@@ -11,6 +12,8 @@ public interface InvoiceService {
     Page<InvoiceDTO> getAllInvoices(int page, int size);
 
     Page<InvoiceDTO> getAllInvoicesOfUser(int page, int size, String uid, LocalDate initialDate, LocalDate endDate);
+
+    BigDecimal getTotalAmountInvoicesOfUser(String uid, LocalDate initialDate, LocalDate endDate);
 
     InvoiceDTO getInvoice(String uid);
 

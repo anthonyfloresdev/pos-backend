@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -24,5 +25,15 @@ public interface InvoiceRepository extends JpaRepository<Invoice, String> {
 
     @Query(value = "SELECT item.inventory.stock FROM Item item WHERE item.id = :itemId")
     Integer getStockOfItemById(@Param("itemId") String id);
+
+    @Query("SELECT COALESCE(SUM(i.total), 0) FROM Invoice i " +
+            "WHERE i.createdBy = :uid " +
+            "AND i.date BETWEEN :initialDate AND :endDate " +
+            "AND i.annulled = false")
+    BigDecimal getTotalByUserAndDateRange(
+            @Param("uid") String uid,
+            @Param("initialDate") LocalDateTime initialDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 
 }

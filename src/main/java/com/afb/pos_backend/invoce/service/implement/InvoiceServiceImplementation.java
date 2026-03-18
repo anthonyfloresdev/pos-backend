@@ -19,9 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Service
 @Transactional
@@ -69,7 +69,7 @@ public class InvoiceServiceImplementation implements InvoiceService {
         }
         Pageable pageable = PageRequest.of(page, size);
         LocalDateTime initialDateParam = initialDate.atStartOfDay();
-        LocalDateTime endDateParam = endDate.atTime(LocalTime.MAX);
+        LocalDateTime endDateParam = endDate.atTime(23, 59, 59);
         Page<Invoice> invoiceEntities = repository.findByCreatedByAndDateBetweenAndAnnulledFalse(pageable, uid, initialDateParam, endDateParam);
         return invoiceEntities.map(invoiceEntity -> mapper.map(invoiceEntity, InvoiceDTO.class));
     }
@@ -109,5 +109,15 @@ public class InvoiceServiceImplementation implements InvoiceService {
         int rowsAffected = repository.annulled(uid, true);
         log.info("Se ha actualizado {}.", rowsAffected);
         return String.format("La factura con identificador: %s ha sido borrado", uid);
+    }
+
+    @Override
+    public BigDecimal getTotalAmountInvoicesOfUser(String uid, LocalDate initialDate, LocalDate endDate) {
+        if (initialDate == null || endDate == null) {
+            throw new BadRequestException(String.format(MessageConstant.BAD_REQUEST_ERROR, "la fecha inicial y la fecha final"));
+        }
+        LocalDateTime initialDateParam = initialDate.atStartOfDay();
+        LocalDateTime endDateParam = endDate.atTime(23, 59, 59);
+        return repository.getTotalByUserAndDateRange(uid, initialDateParam, endDateParam);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.Context;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +70,18 @@ public class InvoiceController {
             @RequestParam(defaultValue = "5") int size
     ) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllInvoicesOfUser(page, size, uid, initialDate, endDate));
+    }
+
+    @GetMapping(path = "/byUser/{uid}/total", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Map<String, BigDecimal>> getTotalByCreatedBy(
+            @PathVariable String uid,
+            @RequestParam LocalDate initialDate,
+            @RequestParam LocalDate endDate
+    ) {
+        Map<String, BigDecimal> response = new HashMap<>();
+        BigDecimal totalAmount = service.getTotalAmountInvoicesOfUser(uid, initialDate, endDate);
+        response.put("total", totalAmount);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping(path = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
