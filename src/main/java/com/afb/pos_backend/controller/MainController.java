@@ -14,7 +14,7 @@ public class MainController {
 
     public final String COMPANY_NAME;
 
-    public MainController(@Value("app.company-name") String companyName) {
+    public MainController(@Value("${app.company-name}") String companyName) {
         this.COMPANY_NAME = companyName;
     }
 
