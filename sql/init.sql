@@ -1,9 +1,6 @@
 -- Creación del schema respectivo.
 CREATE SCHEMA IF NOT EXISTS pos;
 
--- Se pone el schema como predeterminado
-ALTER DATABASE api_pos SET search_path TO pos;
-
 -- pos.users definition
 
 -- Drop table
@@ -28,7 +25,8 @@ CREATE TABLE pos.users (
 
 INSERT INTO pos.users
 (user_id, created_at, updated_at, active, complete_name, "password", user_role, username, created_by, updated_by)
-VALUES('51c06a69-2ad3-4192-81be-9b8cccbf82e0', '2025-09-01 18:13:43.227', '2025-09-01 18:13:43.227', true, 'Usuario Administrador', '$2a$10$UQDcJ1WrgN0I1OUyjpRLZOK3fKpo4UFnnDZUkg13bJpb71F2vWc9S', 'ADMIN', 'admin', 'SYSTEM', 'SYSTEM');
+VALUES('51c06a69-2ad3-4192-81be-9b8cccbf82e0', '2025-09-01 18:13:43.227', '2025-09-01 18:13:43.227', true, 'Usuario Administrador', '$2a$10$UQDcJ1WrgN0I1OUyjpRLZOK3fKpo4UFnnDZUkg13bJpb71F2vWc9S', 'ADMIN', 'admin', 'SYSTEM', 'SYSTEM')
+ON CONFLICT (username) DO NOTHING;
 
 -- pos.clients definition
 

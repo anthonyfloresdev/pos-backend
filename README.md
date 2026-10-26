@@ -41,7 +41,7 @@ API REST desarrollada en Spring Boot para gestión de punto de venta (POS). Sist
 ### Prerrequisitos
 
 - Java 17+
-- Maven 3.8+
+- Maven 3.8+ (opcional: el proyecto incluye Maven Wrapper `mvnw`)
 - Docker & Docker Compose
 - Cuenta SendGrid, AWS SES o servidor SMTP (para envío de correos)
 
@@ -125,14 +125,17 @@ docker-compose down
 ### 5. Ejecutar en Desarrollo (Sin Docker)
 
 ```bash
-# Instalar dependencias
-mvn clean install
+# Si mvnw no tiene permisos de ejecución (Linux/macOS)
+chmod +x mvnw
+
+# Instalar dependencias (en Windows: mvnw.cmd)
+./mvnw clean install
 
 # Ejecutar aplicación
-mvn spring-boot:run
+./mvnw spring-boot:run
 
 # O ejecutar el JAR compilado
-java -jar target/pos-api-1.0.0.jar
+java -jar target/pos-backend-0.0.1-SNAPSHOT.jar
 ```
 ## 📧 Sistema de Emails
 
@@ -265,13 +268,16 @@ El archivo `sql/init.sql` contiene lo mínimo necesario para que el proyecto se 
 - **users**: Usuarios del sistema (autenticación).
 
 **Nota:** El usuario administrador por defecto será **admin** y la contraseña es *173946.$$* si se desea utilizar otra
-se deberá generar tomando el encoder con "BCryptPasswordEncoder". 
+se deberá generar tomando el encoder con "BCryptPasswordEncoder".
+
+**Nota:** El script usa el esquema `pos` de forma fija. Si cambias `DB_SCHEMA` en el `.env`, ajusta también el esquema en `sql/init.sql`.
 
 ### El sql que insertar el usuario administrador por defecto.
 ```
 INSERT INTO pos.users
 (user_id, created_at, updated_at, active, complete_name, "password", user_role, username, created_by, updated_by)
-VALUES('51c06a69-2ad3-4192-81be-9b8cccbf82e0', '2025-09-01 18:13:43.227', '2025-09-01 18:13:43.227', true, 'Usuario Administrador', '$2a$10$UQDcJ1WrgN0I1OUyjpRLZOK3fKpo4UFnnDZUkg13bJpb71F2vWc9S', 'ADMIN', 'admin', 'SYSTEM', 'SYSTEM');
+VALUES('51c06a69-2ad3-4192-81be-9b8cccbf82e0', '2025-09-01 18:13:43.227', '2025-09-01 18:13:43.227', true, 'Usuario Administrador', '$2a$10$UQDcJ1WrgN0I1OUyjpRLZOK3fKpo4UFnnDZUkg13bJpb71F2vWc9S', 'ADMIN', 'admin', 'SYSTEM', 'SYSTEM')
+ON CONFLICT (username) DO NOTHING;
 ```
 
 ## 🔒 Seguridad
